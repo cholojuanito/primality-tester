@@ -102,4 +102,4 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     w = Proj1GUI()
-    sys.exit(app.exec())
+    sys.exit(app.exec_())
