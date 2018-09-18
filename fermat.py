@@ -64,14 +64,14 @@ def mod_exp(x, y, N):
 
 def probability(k):
     '''
-    Big-O time: O(1) because k is constant and unrelated to the number of bits in 'N'
+    Big-O time: O(1) because k is constant and unrelated to the number of bits in 'N', also math.pow is O(1) as well
     Big-O space: O(1) 
 
     The probability of being misled after multiple Fermat tests decreases expontentially
     In fact, it is along the lines of 2 ^ -k where k is the number of tests that are run
     '''
 
-    return 1 / pow(2, k)
+    return 1 / math.pow(2, k)
 
 
 def is_carmichael(N, a):
