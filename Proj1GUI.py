@@ -93,7 +93,8 @@ class Proj1GUI(QWidget):
 
         # If inputs not valid, display an error
         except Exception as e:
-            self.output.setText('<i>ERROR:</i> inputs must be integers!')
+            self.output.setText(e)
+           # self.output.setText('<i>ERROR:</i> inputs must be integers!')
 
 
 if __name__ == '__main__':

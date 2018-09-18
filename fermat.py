@@ -1,4 +1,5 @@
 import random
+import math
 
 
 def prime_test(N, k):
@@ -11,35 +12,52 @@ def prime_test(N, k):
     # Remember to ensure that all of your random values are unique
 
     # Should return one of three values: 'prime', 'composite', or 'carmichael'
-    '''
-        setOfNumsToTest = set()
 
-        for x in range(k):
-            setOfNumsToTest.add(random.random(1, N))
+    setOfNumsToTest = set()
 
-        # print(setOfNumsToTest)
+    while (len(setOfNumsToTest) != k):
+        randNum = random.randrange(1, N)
+        setOfNumsToTest.add(randNum)
 
-        for x in range(len(setOfNumsToTest)):
-            pass
-    '''
+    for a in setOfNumsToTest:
+        e = mod_exp(a, N - 1, N)
+
+        if (e != 1):
+            return 'compsite'
+
+        if is_carmichael(N, a):
+            return 'carmichael'
+
     return 'prime'
 
 
 def mod_exp(x, y, N):
-    # You will need to implements this function and change the return value.
+    '''
+    Pretty straight forward how it works
+    '''
+    if (y == 0):
+        return 1
 
-    return pow(x, y) % N
+    halfExp = math.floor(y / 2)
+    answer = mod_exp(x,  halfExp, N)
+
+    if (y % 2 == 0):
+        return pow(answer, 2) % N
+    else:
+        return (x * pow(answer, 2)) % N
 
 
 def probability(k):
-    # The probability of being misled after multiple Fermat tests decreases expontentially
-    # In fact it is along the lines of 2 ^ -k where k is the number of tests that are run
+    '''
+    The probability of being misled after multiple Fermat tests decreases expontentially
+    In fact it is along the lines of 2 ^ -k where k is the number of tests that are run
+    '''
 
     return 1 / pow(2, k)
 
 
 def is_carmichael(N, a):
-    ''' 
+    '''
     The algorithm follows these steps:
         1. Start the algorithm with an exponent value of N - 1
         2. Keep doing the following while the current exponent value, 'currExp' is divisible by 2:
@@ -55,15 +73,15 @@ def is_carmichael(N, a):
     '''
     nMinusOne = N - 1
     currExp = nMinusOne
-    isStillPrime = False
+    negOneModFlag = False
+
     while (currExp % 2 == 0):
         e = mod_exp(a, currExp, N)
-        if (e != 1):
-            if (e == nMinusOne):
-                isStillPrime = True
-            else:
-                if (isStillPrime != True):
-                    return True
+        if (e != 1 and e != nMinusOne):
+            if (negOneModFlag == False):
+                return True
+        elif (e == nMinusOne):
+            negOneModFlag = True
 
         currExp /= 2
 
